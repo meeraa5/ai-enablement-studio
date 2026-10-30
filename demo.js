@@ -14,3 +14,6 @@ $('#chapters').onclick=e=>{const b=e.target.closest('[data-step]');if(b)jump(+b.
 window.addEventListener('message',e=>{if(e.origin!==location.origin||e.source!==frame.contentWindow||e.data?.type!=='studio-demo-ready')return;ready=true;draw(true);});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){playing=false;draw();}last=performance.now();});
 function tick(now){if(playing&&ready){elapsed=Math.min(total,elapsed+(now-last)/1000);if(elapsed===total)playing=false;draw();}last=now;requestAnimationFrame(tick);}draw();requestAnimationFrame(tick);
+
+function requestDemoReady(){frame.contentWindow.postMessage({type:'studio-demo-ping'},location.origin);}
+frame.addEventListener('load',requestDemoReady);requestDemoReady();
