@@ -1,0 +1,12 @@
+{
+  "name": "ai-enablement-studio",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test model.test.mjs presentation.test.mjs",
+    "check": "node --check app.js && node --check model.js && node --check demo.js && node --check presentation.js",
+    "build": "node build.mjs"
+  }
+}

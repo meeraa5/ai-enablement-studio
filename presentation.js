@@ -1,0 +1,20 @@
+import {seed,completeLesson,submitSurvey,recommendations,createTaskFromInsight,linkTaskToEvent,PATHS} from './model.js';
+export const DEMO_STEPS=[
+ {title:'One connected enablement program',page:'overview',seconds:20,pillar:'Discover',caption:'Start with the organizational challenge: helping employees adopt AI confidently. This overview connects learning, feedback, and coordinated action. Every figure comes from fictional records; attendance and sustained adoption remain separate indicators.'},
+ {title:'Useful guidance, at the moment of need',page:'resources',seconds:20,pillar:'Discover',caption:'Employees can find practical guides on prompting, privacy, and responsible use. Each resource has useful content, an owner, and a review date. This verification checklist teaches employees to check claims and calculations before sharing AI output.'},
+ {title:'Build confidence through practice',page:'learning',seconds:25,pillar:'Learn',caption:'An engineering learner completes a lesson and resumes the next one. Every path combines a clear objective, a practical example, an exercise, and responsible-use reminders. Completion records participation; it does not claim to certify proficiency.'},
+ {title:'Listen to what gets in the way',page:'survey',seconds:25,pillar:'Engage',caption:'A fictional employee reports daily AI use but limited time to learn. The saved response updates the shared survey dataset from 120 to 121 responses. The survey collects learning preferences and barriers without requesting personal information.'},
+ {title:'Make the recommendation explainable',page:'insights',seconds:25,pillar:'Measure',caption:'The time-to-learn barrier now includes that response. A transparent rule recommends a short learning sprint. The coordinator can inspect the supporting count, sample size, priority rule, and suggested action. This is a deterministic recommendation, not an unsupported claim of AI intelligence.'},
+ {title:'Give the action an owner',page:'workspace',seconds:25,pillar:'Improve',caption:'The recommendation becomes an initiative in the coordinator workspace. It has a named fictional owner, a deadline, an In Progress status, and the original feedback context. Tasks also support dependencies, event preparation, and resource review.'},
+ {title:'Schedule the response to employee needs',page:'events',seconds:20,pillar:'Engage',caption:'The coordinator schedules a 15-minute learning sprint linked to the initiative. The session has a facilitator, date, capacity, related guidance, and a planning checklist. Registrations and actual attendance are tracked independently.'},
+ {title:'Close the loop with leadership',page:'briefing',seconds:20,pillar:'Improve',caption:'The executive briefing now reflects the new response, owned initiative, and scheduled workshop. Leaders can see status, risks, next actions, and upcoming milestones. The coordinator can copy or print the briefing. Self-reported savings remain explicitly unverified.'}
+];
+export function presentationState(step){
+ if(!Number.isInteger(step)||step<0||step>=DEMO_STEPS.length)throw Error('Invalid demo step');
+ const s=seed();s.role='Engineering';
+ if(step>=2)completeLesson(s,PATHS[1].lessons[0].id);
+ if(step>=3)submitSurvey(s,{department:'Engineering',frequency:'Daily',confidence:3,usefulness:4,savings:1,barriers:['Time to learn'],interests:['Prompting'],formats:'Workshop',comment:'Fictional example: short practical sessions would help.'});
+ if(step>=5){const rec=recommendations(s).find(r=>r.barrier==='Time to learn');const t=createTaskFromInsight(s,rec);t.id='presentation-initiative';t.owner='Alex Morgan (fictional)';t.status='In Progress';
+ if(step>=6){s.events.push({id:'presentation-event',title:'15-minute learning sprint: better prompts',type:'Prompting Session',date:'2026-11-06',time:'10:00',facilitator:'Alex Morgan (fictional)',description:'A focused practice session responding to the reported time-to-learn barrier. Use synthetic project notes to write and verify one useful prompt.',capacity:30,phase:'Plan',resources:['res1','res4'],checklist:[0],taskId:t.id});t.eventId='presentation-event';linkTaskToEvent(s,t);}}
+ return s;
+}
