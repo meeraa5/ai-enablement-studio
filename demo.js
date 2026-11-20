@@ -1,4 +1,4 @@
-import {DEMO_STEPS} from './presentation.js';
+import {DEMO_STEPS} from './presentation.js?v=lab-20261119';
 const $=s=>document.querySelector(s),frame=$('#product'),total=DEMO_STEPS.reduce((n,s)=>n+s.seconds,0),starts=DEMO_STEPS.map((_,i)=>DEMO_STEPS.slice(0,i).reduce((n,s)=>n+s.seconds,0));
 let elapsed=0,playing=false,started=false,ready=false,last=0,current=-1;
 const time=n=>Math.floor(n/60)+':'+String(Math.floor(n%60)).padStart(2,'0');

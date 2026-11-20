@@ -1,34 +1,41 @@
-# Verification record
+# Verification record · Engineering Lab upgrade
 
-## Automated
+Run `node --test *.test.mjs`, the package syntax checks, and `node build.mjs`.
 
-Run `node --test *.test.mjs`, `node --check app.js`, `node --check model.js` and `node build.mjs`.
+## Automated checks
 
-The Node tests cover deterministic seed relationships, sample sizes and denominators, inclusive date/department filtering, empty data, lesson idempotency and serialized persistence, registration capacity/past-date protection, survey validation and current-response replacement, recommendation priorities and deduplication, initiative/workshop visibility in briefings, and multiple tasks linked to an event.
+25 tests cover the original data relationships, aggregation, inclusive filters, lesson idempotency, registration constraints, survey replacement, insight-to-action integration, multiple event tasks, plus:
 
-## Browser journeys exercised
+- Verbatim current-source grounding and archived-source exclusion.
+- Unsupported-question abstention, selected privacy/instruction boundaries, and sensitive-pattern text omission.
+- Conflicting policy rejection and exclusion of unapproved evidence.
+- Actual execution and scoring of all 16 evaluation fixtures; visible baseline failures.
+- Rejection of action drafts from blocked or baseline answers.
+- Required pending state, reviewer, rationale and acknowledgement before approval.
+- Payload change detection before dispatch.
+- Revision after rejection requiring new review.
+- Idempotent normal execution and receipt re-verification.
+- Timeout-after-write recovery without duplicate tickets.
+- Failure-before-write recovery and retry limits.
+- Exactly 180 seconds across eight walkthrough chapters and isolated replay of the real engineering workflow.
+- Optional local-model response schema/citation/verbatim-quote validation and admission rejection for cloud names, remote metadata and small stubs.
 
-Using the local application in the in-app Chromium browser:
+The live fixture suite currently passes 16/16 guarded cases versus 9/16 baseline cases. These figures refer to finite synthetic fixtures, not a production guarantee. Timing is measured at runtime.
 
-- Employee/Coordinator switch and role selection.
-- Lesson completion, continuation, reload persistence and Resume path indicator.
-- Resource search for privacy, guide detail, and sample-policy label.
-- Session registration and confirmation; feedback submission for a past session.
-- All required adoption-pulse fields, checkboxes, 7/7 progress and submission confirmation.
-- Response count changed from 120 to 121; regular-use count from 48 to 49.
-- Time-to-learn recommendation created a linked initiative; owner/status edits saved.
-- Initiative scheduled a workshop; executive briefing included initiative, owner, status, related workshop and updated response counts.
-- Copy-to-clipboard returned the generated briefing content.
-- A created session was moved to a past demo date; recorded demo attendance and lifecycle checklist; submitted and reviewed feedback.
-- Follow-up task creation and completion. This exposed a one-to-one link constraint; fixed to permit multiple event tasks and retested successfully.
-- Created a resource and advanced Draft → Review → Approved → Published.
+## Browser checks performed locally
 
-Final checks: session cancellation restored the Register control; reset restored the survey response count to 120 and persisted after reload; the department matrix rendered; no warning/error entries appeared in the browser runtime log. Tested the responsive layout at 1440×1000 and 390×844. The mobile page had equal document and viewport widths (375 CSS pixels excluding browser scrollbar), with no document horizontal overflow. Guided journey next/skip controls worked. Mobile navigation scrolls horizontally by design. Added mobile reset and an always-visible synthetic-data disclosure. Optional fonts have system fallbacks.
+- A Finance question returned the exact current meal-policy passage and FIN-03 v2.0 §3.1 citation.
+- Drafted a request with the timeout-after-acceptance scenario.
+- Requested review, entered a fictional rationale, explicitly acknowledged the mock action and recorded approval.
+- Initial dispatch produced Retry needed; retry confirmed FIN-DEMO-0001 with one mock ticket.
+- Ran evaluations; observed baseline 9/16, guarded 16/16 and measured runtime p95.
+- Executive briefing reflected the saved run, evaluation results, mock receipt and production gaps; these persisted after reload.
+- Walkthrough chapter shortcuts replayed evaluations, timeout recovery and the engineering briefing.
+- Desktop Lab rendered at 1440×1000 without document horizontal overflow (content width equaled viewport width).
 
-Final automated run: **8 tests passed, 0 failed**. JavaScript syntax checks and static production validation passed. Local index.html returned HTTP 200.
+Additional final responsive/deployment observations are recorded with the delivery. No production identity/security certification, formal accessibility audit, independent red team, or multi-browser suite is claimed.
 
-No claim is made that a production security review, accessibility certification, browser print rendering audit, or multi-browser suite was performed.
+## Optional model scope
 
-## Captioned walkthrough verification
+CLI help, syntax and validator tests ran. Ollama was not installed or called, no model was downloaded, and no generation was performed. A real local-model evaluation remains future work. The website never imports the runner. Source-reviewed API contracts are linked in README.md.
 
-Added two tests for the eight-chapter, exactly 180-second presentation and isolated replay of real domain operations. Total: 10 automated tests. Browser checks verified start/pause, chapter seeking, recommendation detail, and the final briefing with 121 responses, the fictional owner, and the linked workshop. No browser warning/error logs were observed during those checks. The demo is captioned, not a recorded video.

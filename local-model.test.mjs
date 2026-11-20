@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validateLocalOutput,validateInstalledModel} from './local-model.mjs';
+import {POLICIES} from './engineering.js';
+test('local output validator accepts only exact retrieved evidence with its source',()=>{const d=POLICIES[0];assert.equal(validateLocalOutput({answer:d.body,citations:[d.id],abstain:false},[d]).answer,d.body);assert.throws(()=>validateLocalOutput({answer:'Reimburse everything.',citations:[d.id],abstain:false},[d]));assert.throws(()=>validateLocalOutput({answer:d.body,citations:['invented'],abstain:false},[d]));});
+test('local output validator rejects malformed responses and unsupported abstention citations',()=>{assert.throws(()=>validateLocalOutput(null,[]));assert.throws(()=>validateLocalOutput({answer:'unknown',citations:['FIN-01'],abstain:true},[]));assert.equal(validateLocalOutput({answer:'unknown',citations:[],abstain:true},[]).abstain,true);});
+test('local model admission rejects cloud names and remote or small stubs',()=>{assert.throws(()=>validateInstalledModel({name:'example:cloud',size:9000000000,details:{format:'gguf'}}));assert.throws(()=>validateInstalledModel({name:'local',size:100,details:{format:'gguf'}}));assert.throws(()=>validateInstalledModel({name:'local',size:9000000000,remote_host:'example.test',details:{format:'gguf'}}));assert.equal(validateInstalledModel({name:'already-installed:local',size:9000000000,details:{format:'gguf'}}),true);});
